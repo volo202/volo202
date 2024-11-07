@@ -1,0 +1,42 @@
+#include "turtle.h"
+#include <sstream>
+
+int main() {
+    using namespace turtle;
+
+    const int rows = 5;
+    const int cols = 5;
+    const int cellSize = 50;
+
+    const int startX = -cols * cellSize / 2;
+    const int startY = rows * cellSize / 2;
+
+    Turtle t;
+    t.speed(TS_FASTEST);
+    t.penup();
+
+    for (int row = 0; row < rows; ++row) {
+        for (int col = 0; col < cols; ++col) {
+            int x = startX + col * cellSize;
+            int y = startY - row * cellSize;
+
+            t.goTo(x, y);
+            t.pendown();
+            
+            for (int i = 0; i < 4; ++i) {
+                t.forward(cellSize);
+                t.right(90);
+            }
+            t.penup();
+
+            t.goTo(x + cellSize / 4, y - cellSize / 2);
+
+            std::ostringstream oss;
+            oss << "(" << x << ", " << y << ")";
+            t.write(oss.str(), align::center);
+        }
+    }
+
+    t.hideturtle();
+    return turtle::done();
+}
