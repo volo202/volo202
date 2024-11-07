@@ -1,0 +1,43 @@
+#include <iostream>
+#include <vector>
+#include <cstdlib>
+#include <ctime>
+
+int main() {
+    std::srand(static_cast<unsigned int>(std::time(0)));
+    std::vector<int> arr;
+
+    int n = 45;
+    arr.resize(n);
+    
+    for (int &elem : arr) {
+        elem = std::rand() % 901 + 10;
+    }
+    
+    std::vector<int> KozenTretiElement;
+    for (int i = 2; i < arr.size(); i += 3) {
+        KozenTretiElement.push_back(arr[i]);
+    }
+
+    int size = KozenTretiElement.size();
+    for (int gap = size / 2; gap > 0; gap /= 2) {
+        for (int i = gap; i < size; i++) {
+            int temp = KozenTretiElement[i];
+            int j = i;
+            while (j >= gap && KozenTretiElement[j - gap] > temp) {
+                KozenTretiElement[j] = KozenTretiElement[j - gap];
+                j -= gap;
+            }
+            KozenTretiElement[j] = temp;
+        }
+    }
+
+    std::cout << "Відсортовані елементи на кожній третій позиції (за зростанням): ";
+    for (int elem : KozenTretiElement) {
+        std::cout << elem << " ";
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
+    
