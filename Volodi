@@ -1,0 +1,50 @@
+#include <iostream>
+#include <cmath>
+#include <functional>
+
+using namespace std;
+
+int main() {
+    const double l = -50.0, r = 50.0;
+    double eps;
+    cout << "Введіть точність (eps): ";
+    cin >> eps;
+
+    int choice;
+    cout << "Виберіть тип рівняння:\n1 - Квадратне (ax^2 + bx + c = 0)\n2 - Кубічне (ax^3 + bx^2 + cx + d = 0)\nВаш вибір: ";
+    cin >> choice;
+
+    double a, b, c, d;
+
+    if (choice == 1) {
+        cout << "Введіть коефіцієнти a, b і c:\n";
+        cin >> a >> b >> c;
+
+        auto f = [a, b, c](double x) { return a * x * x + b * x + c; };
+        auto df = [a, b](double x) { return 2 * a * x + b; };
+
+        double x = (l + r) / 2.0;
+        while (abs(f(x)) > eps) {
+            x -= f(x) / df(x);
+        }
+
+        cout << "Знайдений корінь: " << x << endl;
+    } else if (choice == 2) {
+        cout << "Введіть коефіцієнти a, b, c і d:\n";
+        cin >> a >> b >> c >> d;
+
+        auto f = [a, b, c, d](double x) { return a * x * x * x + b * x * x + c * x + d; };
+        auto df = [a, b, c](double x) { return 3 * a * x * x + 2 * b * x + c; };
+
+        double x = (l + r) / 2.0;
+        while (abs(f(x)) > eps) {
+            x -= f(x) / df(x);
+        }
+
+        cout << "Знайдений корінь: " << x << endl;
+    } else {
+        cout << "Невірний вибір!" << endl;
+    }
+
+    return 0;
+}
